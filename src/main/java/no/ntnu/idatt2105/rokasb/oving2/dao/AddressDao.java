@@ -51,6 +51,7 @@ public class AddressDao {
         for(Address address : addresses) {
             if(address.getAddressID() == addressID) {
                 addresses.remove(address);
+                address.getAuthor().setAddress(null);
                 return address;
             }
         }

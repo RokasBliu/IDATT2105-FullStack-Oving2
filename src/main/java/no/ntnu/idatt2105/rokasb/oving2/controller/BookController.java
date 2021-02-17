@@ -26,6 +26,11 @@ public class BookController {
         return bookService.getBook(bookID);
     }
 
+    @GetMapping("/books/{title}")
+    public Book getBook(@PathVariable("title") String title) {
+        return bookService.getBook(title);
+    }
+
     @PutMapping("/books/{bookID}")
     public void updateBook(@PathVariable("bookID") int bookID, @RequestBody Book book) {
         bookService.updateBook(bookID, book);
