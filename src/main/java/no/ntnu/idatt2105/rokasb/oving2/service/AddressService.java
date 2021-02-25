@@ -29,13 +29,13 @@ public class AddressService {
         return address;
     }
 
-    public Address addAddress(Address address) {
+    public int addAddress(Address address) {
         return addressDao.addAddress(address);
     }
 
-    public Address updateAddress(int addressID, Address address) {
+    public int updateAddress(int addressID, Address address) {
         return addressDao.updateAddress(addressID, address);
     }
 
-    public Address removeAddress(int addressID) { return addressDao.removeAddress(addressID); }
+    public int removeAddress(int addressID) { return addressDao.removeAddress(addressID); }
 }

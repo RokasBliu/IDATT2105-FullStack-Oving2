@@ -1,6 +1,8 @@
 package no.ntnu.idatt2105.rokasb.oving2.dao;
 
 import no.ntnu.idatt2105.rokasb.oving2.object.Address;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -8,53 +10,31 @@ import java.util.List;
 
 @Repository
 public class AddressDao {
-    private List<Address> addresses;
 
-    public AddressDao() {
-        addresses = new ArrayList<>();
-    }
-
-    public AddressDao(ArrayList<Address> addresses) {
-        this.addresses = addresses;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     public List<Address> getAddresses() {
-        return addresses;
+        String query = "SELECT * FROM address";
+        return null;
+
     }
 
     public Address getAddress(int addressID) {
-        for(Address address : addresses) {
-            if(address.getAddressID() == addressID) return address;
-        }
         return null;
     }
 
-    public Address addAddress(Address address) {
-        address.setAddressID(addresses.size() + 1);
-        addresses.add(address);
-        return address;
+    public int addAddress(Address address) {
+        return jdbcTemplate.update("INSERT INTO address(street_name, street_mr) VALUES (?, ?)",
+                address.getStreetName(), address.getStreetNr());
     }
 
-    public Address updateAddress(int addressID, Address address) {
-        int i;
-        for(i = 0; i < addresses.size(); i++) {
-            if(addresses.get(i).getAddressID() == addressID) {
-                address.setAddressID(addressID);
-                break;
-            }
-        }
-        addresses.set(i, address);
-        return address;
+    public int updateAddress(int addressID, Address address) {
+        return jdbcTemplate.update("UPDATE address SET street_name = ?, street_nr = ? WHERE address_id = ?",
+                address.getStreetName(), address.getStreetNr(), addressID);
     }
 
-    public Address removeAddress(int addressID) {
-        for(Address address : addresses) {
-            if(address.getAddressID() == addressID) {
-                addresses.remove(address);
-                address.getAuthor().setAddress(null);
-                return address;
-            }
-        }
-        return null;
+    public int removeAddress(int addressID) {
+        return jdbcTemplate.update("DELETE FROM address WHERE address_id = ?", addressID);
     }
 }
